@@ -19,20 +19,12 @@ export const useTypingEngine = () => {
 
     if (state.userInput === currentWord) {
       setTypedCorrectly(true);
-      speak(currentWord); // Speak the word immediately
+      speak(currentWord);
       setTimeout(() => {
         dispatch({ type: 'CORRECT_WORD' });
         setTypedCorrectly(false);
-      }, 500); // Small delay for feedback
+      }, 400);
     }
-
-    // Check for errors: if user input doesn't match the prefix of current word
-    // We need to count errors only ONCE per wrong keystroke.
-    // However, since we don't have access to the *previous* input here easily without extra state,
-    // let's rely on GameContainer to dispatch errors, or check input length change.
-    
-    // Actually, dispatching ADD_ERROR from GameContainer is safer for counting keystrokes.
-    // So we leave this empty here and handle it in GameContainer.
   }, [state.userInput, state.currentWordIndex, state.status, dispatch, state.words, speak]);
 
   return { typedCorrectly };
